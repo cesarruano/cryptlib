@@ -6,4 +6,5 @@ cryptlib/usage_example.py
 cryptlib.egg-info/PKG-INFO
 cryptlib.egg-info/SOURCES.txt
 cryptlib.egg-info/dependency_links.txt
+cryptlib.egg-info/requires.txt
 cryptlib.egg-info/top_level.txt

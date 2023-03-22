@@ -3,8 +3,9 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.fernet import Fernet
 
-class Encrypter:
+class ShortEncrypter:
     def __init__(self, key=None, file=None):
         if key is not None:
             self.key = key
@@ -28,7 +29,7 @@ class Encrypter:
         )
         return encrypted
 
-class Decrypter:
+class ShortDecrypter:
     def __init__(self, key=None, file=None):
         if key is not None:
             self.key = key
@@ -51,6 +52,51 @@ class Decrypter:
             )
         )
         return decrypted
+
+class LongEncrypter:
+    def __init__(self, asym_encrypter):
+        self.asym_encrypter = asym_encrypter
+        self.key = Fernet.generate_key()
+        self.fernet = Fernet(self.key)
+
+    def encrypt(self, long_data):
+        heading = self.asym_encrypter.encrypt(self.key)
+        encrypted_long_data = self.fernet.encrypt(long_data)
+        print("len header: "+str(len(heading)))
+        print("len encrypted_long_data: "+str(len(encrypted_long_data)))
+        return heading+encrypted_long_data
+
+class LongDecrypter:
+    def __init__(self, asym_decrypter):
+        self.asym_decrypter = asym_decrypter
+
+    def decrypt(self, long_data):
+        heading = long_data[:256]
+        message = long_data[256:]
+        print("len long_data: "+str(len(long_data)))
+        print("len header: "+str(len(heading)))
+        print("len message: "+str(len(message)))
+        sym_key = Fernet(self.asym_decrypter.decrypt(heading))
+        decrypted_message = sym_key.decrypt(message)
+        return decrypted_message
+
+class Encrypter:
+    def __init__(self, key=None, file=None):
+        self.short_encrypter = ShortEncrypter(key=key, file=file)
+        self.long_encrypter = LongEncrypter(self.short_encrypter)
+    
+    def encrypt(self, data):
+        return self.long_encrypter.encrypt(data)
+        
+    
+class Decrypter:
+    def __init__(self, key=None, file=None):
+        self.short_decrypter = ShortDecrypter(key=key, file=file)
+        self.long_decrypter = LongDecrypter(self.short_decrypter)
+    
+    def decrypt(self, data):
+        return self.long_decrypter.decrypt(data)
+        
 
 class KeyManager:
     def __init__(self):

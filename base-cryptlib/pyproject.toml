@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "cryptlib"
-version = "0.0.1"
+version = "0.0.3"
 authors = [
   { name="Cesar Ruano", email="cesar.ruanoalv@gmail.com" },
 ]
@@ -16,5 +16,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+dependencies = [
+  "cryptography",
+]
+
 [project.urls]
 "Homepage" = "https://github.com/cesarruano/cryptlib"
+
