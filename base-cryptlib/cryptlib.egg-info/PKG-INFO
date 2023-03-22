@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: cryptlib
+Version: 0.0.1
+Summary: Asymetric encryption wrapper.
+Author-email: Cesar Ruano <cesar.ruanoalv@gmail.com>
+Project-URL: Homepage, https://github.com/cesarruano/cryptlib
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache 2.0
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# Cryptlib
+
+Asymetric encryption wrapper
